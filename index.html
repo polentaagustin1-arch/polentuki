@@ -67,7 +67,7 @@ select,input[type=text],input[type=number],input[type=password]{width:100%;paddi
 .pasos{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem;counter-reset:p}
 .pasos li{background:#fff;border-radius:var(--r);padding:1.2rem;box-shadow:var(--sombra);counter-increment:p}
 .pasos li::before{content:counter(p);display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;background:var(--agua);color:#fff;font:800 1.2rem 'Baloo 2';margin-bottom:.5rem}
-.calc,.panel{background:#fff;border-radius:var(--r);padding:1.5rem;box-shadow:var(--sombra);margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:end}
+.calc{background:#fff;border-radius:var(--r);padding:1.5rem;box-shadow:var(--sombra);margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:end}
 .calc input{width:9rem}
 .btn{background:var(--naranja);color:#fff;border:0;font-weight:700;padding:.7rem 1.4rem;border-radius:99px;transition:transform .2s}
 .btn:hover{transform:scale(1.05)}
@@ -77,16 +77,11 @@ select,input[type=text],input[type=number],input[type=password]{width:100%;paddi
 table{border-collapse:collapse;width:100%;min-width:460px;text-align:center}
 th{background:var(--fucsia);color:#fff;padding:.7rem;font-family:'Baloo 2'}
 td{padding:.6rem;border-top:1px solid #efe5f9}
-tr.hit td{background:#ffe3f3;font-weight:700}tr.baja td{opacity:.5}
+tr.hit td{background:#ffe3f3;font-weight:700}
 .nota{font-size:.9rem;margin-top:.7rem}
-.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;width:100%}
-.chk{display:flex;gap:.6rem;flex-wrap:wrap}.chk label{display:flex;gap:.25rem;font-weight:600}
-.resumen{display:flex;flex-wrap:wrap;gap:1rem;width:100%}
-.resumen b{background:var(--bg);padding:.6rem 1rem;border-radius:16px}
 footer{background:var(--tinta);color:#fff;padding:2rem clamp(1rem,4vw,3rem);display:flex;flex-wrap:wrap;gap:1rem 3rem;justify-content:space-between;align-items:center}
 footer .logo{color:var(--naranja);font-size:1.6rem;cursor:default}
 footer a{color:var(--agua);font-weight:700}
-.adm{background:none;border:0;color:#8f7aa0;font-size:.8rem;text-decoration:underline}
 .talles-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-areas:"pasos img" "calc img" "tabla img";column-gap:1.5rem;align-items:start}
 .t-pasos{grid-area:pasos;background:#fff;border-radius:var(--r);padding:1.5rem;box-shadow:var(--sombra);margin-bottom:1.5rem}
 .t-pasos h3{font-size:1.6rem;margin-bottom:.8rem}
@@ -168,44 +163,14 @@ footer a{color:var(--agua);font-weight:700}
       </div>
     </div>
   </section>
-
-  <section id="admin" class="tab">
-    <h2>Admin</h2>
-    <div class="panel" id="login">
-      <div><label for="clave">Clave</label><input id="clave" type="password" autocomplete="off"></div>
-      <button class="btn" id="entrar">Entrar</button><p id="err"></p>
-    </div>
-    <div id="panel" hidden>
-      <h3 class="sec">Inventario</h3>
-      <div class="panel"><div style="flex:1;min-width:220px"><label for="q">Buscar por nombre o código</label><input id="q" type="text"></div></div>
-      <div class="tabla"><table>
-        <thead><tr><th>Código</th><th>Modelo</th><th>Tipo</th><th>Precio</th><th>Talles</th><th>Estado</th></tr></thead>
-        <tbody id="inv"></tbody>
-      </table></div>
-      <h3 class="sec">Agregar anillo (simulado)</h3>
-      <div class="panel"><div class="form">
-        <div><label for="aN">Nombre</label><input id="aN" type="text"></div>
-        <div><label for="aP">Precio</label><input id="aP" type="number" value="2000" readonly title="Precio único"></div>
-        <div><label for="aT">Tipo</label><select id="aT"></select></div>
-        <div><label for="aI">Imagen</label><input id="aI" type="text" placeholder="img/foto.jpg"></div>
-      </div>
-      <div><label>Talles disponibles</label><div class="chk" id="aS"></div></div>
-      <button class="btn" id="agregar">Agregar</button></div>
-      <h3 class="sec">Métricas de consultas</h3>
-      <div class="panel"><div class="resumen" id="resumen"></div>
-        <div class="tabla" style="width:100%"><table><thead><tr><th>Modelo</th><th>Consultas</th></tr></thead><tbody id="met"></tbody></table></div>
-        <button class="btn s r" id="reset">Borrar métricas</button></div>
-    </div>
-  </section>
 </main>
 <footer>
   <span class="logo">Polentuki</span>
   <div>WhatsApp: <a href="https://wa.me/5492352550999">+54 9 2352 55-0999</a></div>
   <div>Instagram: <a href="https://instagram.com/agustin_polent">@agustin_polent</a></div>
-  <button class="adm" data-go="admin">Admin</button>
 </footer>
 <script>
-const WA='5492352550999',CLAVE='1234';
+const WA='5492352550999';
 const TIPOS={negros:'Negros',metalicos:'Metálicos',disenos:'Con Diseños'};
 const TALLES=[17,18,19,20,21];
 const PRECIO=2000; // Precio único: se ignora cualquier precio guardado
@@ -220,19 +185,15 @@ const base=[
  {cod:'PK-006',n:'Noche',p:2000,tipo:'negros',talles:[17,18,19,20],c:'#f19ac9',img:'',on:1}];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
-const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
-let inv=load('pk_inv',base),ev=load('pk_ev',[]),auth=false;
+const inv=base;
+try{localStorage.removeItem('pk_inv');localStorage.removeItem('pk_ev')}catch(e){} // limpia datos del antiguo panel
 const opts=(a,todos)=>`<option value="all">Todos</option>`+a.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('');
 $('#fT').innerHTML=opts(TALLES.map(t=>[t,t]));
 $('#fS').innerHTML=opts(Object.entries(TIPOS));
-$('#aT').innerHTML=Object.entries(TIPOS).map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('');
-$('#aS').innerHTML=TALLES.map(t=>`<label><input type="checkbox" value="${t}">${t}</label>`).join('');
 
 function ir(id){
   document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.id===id));
   document.querySelectorAll('nav button').forEach(b=>{b.dataset.go===id?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});
-  if(id==='admin')adm();
   scrollTo({top:0});
 }
 document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)ir(b.dataset.go)});
@@ -258,7 +219,6 @@ $('#catalogo').addEventListener('click',e=>{
   const a=e.target.closest('.wa');if(!a)return;
   const i=a.closest('.prod').dataset.i,m=inv[i],t=+$('#t'+i).value,q=+$('#q'+i).value||1;
   a.href=`https://wa.me/${WA}?text=`+encodeURIComponent(`¡Hola! Quiero comprar:\n• Anillo ${m.n} (talle ${t})\n• Cantidad: ${q}\n• Precio unitario: ${money(PRECIO)}\n• Total: ${money(PRECIO*q)}`);
-  ev.push({m:m.n,t,tipo:m.tipo,q,ts:Date.now()});save('pk_ev',ev);
 });
 $('#catalogo').addEventListener('change',e=>{
   const s=e.target.closest('select[id^="q"]');if(!s)return;
@@ -277,30 +237,6 @@ $('#calc').onclick=()=>{
   $(`tr[data-t="${t}"]`).classList.add('hit');
 };
 
-/* Admin */
-function adm(){
-  $('#login').hidden=auth;$('#panel').hidden=!auth;
-  if(!auth)return;
-  const q=$('#q').value.toLowerCase();
-  $('#inv').innerHTML=inv.map((m,i)=>[m,i]).filter(([m])=>(m.n+m.cod).toLowerCase().includes(q)).map(([m,i])=>`
-   <tr class="${m.on?'':'baja'}"><td>${esc(m.cod)}</td><td>${esc(m.n)}</td><td>${TIPOS[m.tipo]}</td><td>${money(PRECIO)}</td><td>${m.talles.join(', ')}</td>
-   <td><button class="btn s ${m.on?'r':'g'}" data-b="${i}">${m.on?'Dar de baja':'Reactivar'}</button></td></tr>`).join('');
-  const cnt=(k)=>ev.reduce((o,e)=>(o[e[k]]=(o[e[k]]||0)+1,o),{});
-  const top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1])[0];
-  const pm=cnt('m'),pt=top(cnt('t')),pk=top(cnt('tipo'));
-  $('#resumen').innerHTML=`<b>Consultas totales: ${ev.length}</b><b>Talle más consultado: ${pt?pt[0]+' ('+pt[1]+')':'—'}</b><b>Tipo con más interés: ${pk?TIPOS[pk[0]]||pk[0]:'—'}</b>`;
-  $('#met').innerHTML=Object.entries(pm).sort((a,b)=>b[1]-a[1]).map(([n,c])=>`<tr><td>${esc(n)}</td><td>${c}</td></tr>`).join('')||'<tr><td colspan="2">Todavía no hay consultas.</td></tr>';
-}
-$('#entrar').onclick=()=>{if($('#clave').value===CLAVE){auth=true;$('#clave').value='';$('#err').textContent='';adm()}else $('#err').textContent='Clave incorrecta.'};
-$('#q').oninput=adm;
-$('#inv').onclick=e=>{const b=e.target.closest('[data-b]');if(!b)return;const m=inv[b.dataset.b];m.on=m.on?0:1;save('pk_inv',inv);adm();cat()};
-$('#agregar').onclick=()=>{
-  const n=$('#aN').value.trim(),p=PRECIO,ts=[...document.querySelectorAll('#aS input:checked')].map(x=>+x.value);
-  if(!n||!p||!ts.length){alert('Completá el nombre y al menos un talle.');return}
-  inv.push({cod:'PK-'+String(inv.length+1).padStart(3,'0'),n,p,tipo:$('#aT').value,talles:ts,c:'#f7b6dc',img:$('#aI').value.trim(),on:1});
-  save('pk_inv',inv);['#aN','#aI'].forEach(s=>$(s).value='');document.querySelectorAll('#aS input').forEach(x=>x.checked=false);adm();cat();
-};
-$('#reset').onclick=()=>{if(confirm('¿Borrar todas las métricas?')){ev=[];save('pk_ev',ev);adm()}};
 cat();ir('inicio');
 </script>
 </body>
