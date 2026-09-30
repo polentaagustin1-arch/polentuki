@@ -50,6 +50,10 @@ button.globo:hover::before{transform:scale(1.2) rotate(30deg)}
 .info{padding:1rem 1.2rem 1.3rem;display:flex;flex-direction:column;gap:.6rem}
 .info h3{font-size:1.4rem}
 .tag{font-size:.8rem;font-weight:700;color:var(--fucsia-d)}
+.promo{display:inline-block;background:var(--fucsia);color:#fff;font:800 clamp(1.1rem,3.5vw,1.6rem) 'Baloo 2',sans-serif;padding:.5rem 1.4rem;border-radius:99px;box-shadow:var(--sombra);margin:.3rem 0 .8rem;animation:latido 2.4s ease-in-out infinite}
+@keyframes latido{50%{transform:scale(1.04)}}
+.qty{display:flex;gap:.6rem;align-items:end}.qty>div{flex:1}
+.total{font-weight:700;color:var(--tinta)}.total b{color:var(--fucsia-d);font-size:1.15rem}
 .precio{font-weight:700;color:var(--fucsia-d);font-size:1.15rem}
 label{font-size:.9rem;font-weight:700;display:block}
 select,input[type=text],input[type=number],input[type=password]{width:100%;padding:.55rem .8rem;border-radius:14px;border:2px solid #e2d3f3;font:inherit;background:#fff;color:var(--tinta)}
@@ -117,7 +121,8 @@ footer a{color:var(--agua);font-weight:700}
 
   <section id="anillos" class="tab">
     <h2>Anillos</h2>
-    <p class="sub">Elegí el talle y te abrimos el chat con el pedido ya escrito.</p>
+    <div class="promo" role="note">🔥 ¡PRECIO ÚNICO! Todos los anillos a $2.000</div>
+    <p class="sub">Elegí el talle y la cantidad, y te abrimos el chat con el pedido ya escrito.</p>
     <div class="filtros">
       <div><label for="fT">Talle</label><select id="fT"></select></div>
       <div><label for="fS">Tipo / estilo</label><select id="fS"></select></div>
@@ -180,7 +185,7 @@ footer a{color:var(--agua);font-weight:700}
       <h3 class="sec">Agregar anillo (simulado)</h3>
       <div class="panel"><div class="form">
         <div><label for="aN">Nombre</label><input id="aN" type="text"></div>
-        <div><label for="aP">Precio</label><input id="aP" type="number" min="0"></div>
+        <div><label for="aP">Precio</label><input id="aP" type="number" value="2000" readonly title="Precio único"></div>
         <div><label for="aT">Tipo</label><select id="aT"></select></div>
         <div><label for="aI">Imagen</label><input id="aI" type="text" placeholder="img/foto.jpg"></div>
       </div>
@@ -203,14 +208,16 @@ footer a{color:var(--agua);font-weight:700}
 const WA='5492352550999',CLAVE='1234';
 const TIPOS={negros:'Negros',metalicos:'Metálicos',disenos:'Con Diseños'};
 const TALLES=[17,18,19,20,21];
+const PRECIO=2000; // Precio único: se ignora cualquier precio guardado
+const money=n=>'$'+Number(n).toLocaleString('es-AR');
 // Modelos de ejemplo. Para usar tus fotos: img:'img/foto.jpg'
 const base=[
- {cod:'PK-001',n:'Luna',p:4500,tipo:'metalicos',talles:[17,18,19,20],c:'#f7b6dc',img:'',on:1},
- {cod:'PK-002',n:'Sol',p:4800,tipo:'metalicos',talles:[18,19,20,21],c:'#ffc89b',img:'',on:1},
- {cod:'PK-003',n:'Eclipse',p:4200,tipo:'negros',talles:[17,19,21],c:'#a9ece0',img:'',on:1},
- {cod:'PK-004',n:'Nube',p:5000,tipo:'disenos',talles:[17,18,19,20,21],c:'#d9c2f5',img:'',on:1},
- {cod:'PK-005',n:'Chispa',p:5200,tipo:'disenos',talles:[18,20],c:'#ffd97a',img:'',on:1},
- {cod:'PK-006',n:'Noche',p:4600,tipo:'negros',talles:[17,18,19,20],c:'#f19ac9',img:'',on:1}];
+ {cod:'PK-001',n:'Luna',p:2000,tipo:'metalicos',talles:[17,18,19,20],c:'#f7b6dc',img:'',on:1},
+ {cod:'PK-002',n:'Sol',p:2000,tipo:'metalicos',talles:[18,19,20,21],c:'#ffc89b',img:'',on:1},
+ {cod:'PK-003',n:'Eclipse',p:2000,tipo:'negros',talles:[17,19,21],c:'#a9ece0',img:'',on:1},
+ {cod:'PK-004',n:'Nube',p:2000,tipo:'disenos',talles:[17,18,19,20,21],c:'#d9c2f5',img:'',on:1},
+ {cod:'PK-005',n:'Chispa',p:2000,tipo:'disenos',talles:[18,20],c:'#ffd97a',img:'',on:1},
+ {cod:'PK-006',n:'Noche',p:2000,tipo:'negros',talles:[17,18,19,20],c:'#f19ac9',img:'',on:1}];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
@@ -237,18 +244,25 @@ function cat(){
   $('#catalogo').innerHTML=l.length?l.map(([m,i])=>`
    <article class="prod" data-i="${i}">
     <div class="foto" style="--c:${m.c||'#f7b6dc'}">${m.img?`<img src="${esc(m.img)}" alt="Anillo ${esc(m.n)}" onerror="this.parentNode.innerHTML='<div class=aro></div>'">`:'<div class="aro"></div>'}</div>
-    <div class="info"><span class="tag">${TIPOS[m.tipo]||''}</span><h3>${esc(m.n)}</h3><span class="precio">$${Number(m.p).toLocaleString('es-AR')}</span>
-     <label for="t${i}">Talle</label>
-     <select id="t${i}">${m.talles.map(t=>`<option ${t==ft?'selected':''}>${t}</option>`).join('')}</select>
+    <div class="info"><span class="tag">${TIPOS[m.tipo]||''}</span><h3>${esc(m.n)}</h3><span class="precio">${money(PRECIO)}</span>
+     <div class="qty"><div><label for="t${i}">Talle</label>
+     <select id="t${i}">${m.talles.map(t=>`<option ${t==ft?'selected':''}>${t}</option>`).join('')}</select></div>
+     <div><label for="q${i}">Cantidad</label>
+     <select id="q${i}">${[1,2,3,4,5,6,7,8,9,10].map(n=>`<option>${n}</option>`).join('')}</select></div></div>
+     <span class="total" id="tot${i}">Total: <b>${money(PRECIO)}</b></span>
      <a class="wa" href="https://wa.me/${WA}" target="_blank" rel="noopener">Pedir por WhatsApp</a></div>
    </article>`).join(''):'<p>No hay anillos con ese filtro. Probá con otro talle o estilo.</p>';
 }
 $('#fT').onchange=$('#fS').onchange=cat;
 $('#catalogo').addEventListener('click',e=>{
   const a=e.target.closest('.wa');if(!a)return;
-  const i=a.closest('.prod').dataset.i,m=inv[i],t=+$('#t'+i).value;
-  a.href=`https://wa.me/${WA}?text=`+encodeURIComponent(`¡Hola! Quiero consultar/comprar el anillo ${m.n} en talle ${t}`);
-  ev.push({m:m.n,t,tipo:m.tipo,ts:Date.now()});save('pk_ev',ev);
+  const i=a.closest('.prod').dataset.i,m=inv[i],t=+$('#t'+i).value,q=+$('#q'+i).value||1;
+  a.href=`https://wa.me/${WA}?text=`+encodeURIComponent(`¡Hola! Quiero comprar:\n• Anillo ${m.n} (talle ${t})\n• Cantidad: ${q}\n• Precio unitario: ${money(PRECIO)}\n• Total: ${money(PRECIO*q)}`);
+  ev.push({m:m.n,t,tipo:m.tipo,q,ts:Date.now()});save('pk_ev',ev);
+});
+$('#catalogo').addEventListener('change',e=>{
+  const s=e.target.closest('select[id^="q"]');if(!s)return;
+  $('#tot'+s.closest('.prod').dataset.i).innerHTML=`Total: <b>${money(PRECIO*(+s.value||1))}</b>`;
 });
 
 /* Talles */
@@ -269,7 +283,7 @@ function adm(){
   if(!auth)return;
   const q=$('#q').value.toLowerCase();
   $('#inv').innerHTML=inv.map((m,i)=>[m,i]).filter(([m])=>(m.n+m.cod).toLowerCase().includes(q)).map(([m,i])=>`
-   <tr class="${m.on?'':'baja'}"><td>${esc(m.cod)}</td><td>${esc(m.n)}</td><td>${TIPOS[m.tipo]}</td><td>$${Number(m.p).toLocaleString('es-AR')}</td><td>${m.talles.join(', ')}</td>
+   <tr class="${m.on?'':'baja'}"><td>${esc(m.cod)}</td><td>${esc(m.n)}</td><td>${TIPOS[m.tipo]}</td><td>${money(PRECIO)}</td><td>${m.talles.join(', ')}</td>
    <td><button class="btn s ${m.on?'r':'g'}" data-b="${i}">${m.on?'Dar de baja':'Reactivar'}</button></td></tr>`).join('');
   const cnt=(k)=>ev.reduce((o,e)=>(o[e[k]]=(o[e[k]]||0)+1,o),{});
   const top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1])[0];
@@ -281,10 +295,10 @@ $('#entrar').onclick=()=>{if($('#clave').value===CLAVE){auth=true;$('#clave').va
 $('#q').oninput=adm;
 $('#inv').onclick=e=>{const b=e.target.closest('[data-b]');if(!b)return;const m=inv[b.dataset.b];m.on=m.on?0:1;save('pk_inv',inv);adm();cat()};
 $('#agregar').onclick=()=>{
-  const n=$('#aN').value.trim(),p=+$('#aP').value,ts=[...document.querySelectorAll('#aS input:checked')].map(x=>+x.value);
-  if(!n||!p||!ts.length){alert('Completá nombre, precio y al menos un talle.');return}
+  const n=$('#aN').value.trim(),p=PRECIO,ts=[...document.querySelectorAll('#aS input:checked')].map(x=>+x.value);
+  if(!n||!p||!ts.length){alert('Completá el nombre y al menos un talle.');return}
   inv.push({cod:'PK-'+String(inv.length+1).padStart(3,'0'),n,p,tipo:$('#aT').value,talles:ts,c:'#f7b6dc',img:$('#aI').value.trim(),on:1});
-  save('pk_inv',inv);['#aN','#aP','#aI'].forEach(s=>$(s).value='');document.querySelectorAll('#aS input').forEach(x=>x.checked=false);adm();cat();
+  save('pk_inv',inv);['#aN','#aI'].forEach(s=>$(s).value='');document.querySelectorAll('#aS input').forEach(x=>x.checked=false);adm();cat();
 };
 $('#reset').onclick=()=>{if(confirm('¿Borrar todas las métricas?')){ev=[];save('pk_ev',ev);adm()}};
 cat();ir('inicio');
