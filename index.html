@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Polentuki · Anillos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3ecfb;--fucsia:#e6199a;--fucsia-d:#b80f78;--naranja:#ff8a3d;--agua:#3fc9b0;--tinta:#3a2148;--card:#fff;--sombra:0 6px 18px rgba(90,40,120,.12);--r:26px}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--tinta);font-family:'Nunito Sans',system-ui,sans-serif;line-height:1.5;min-height:100vh;display:flex;flex-direction:column}
+h1,h2,h3,.logo{font-family:'Baloo 2',system-ui,sans-serif;line-height:1.1}
+button{font:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--naranja);outline-offset:3px}
+header{position:sticky;top:0;z-index:10;background:rgba(243,236,251,.92);backdrop-filter:blur(8px);display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:.5rem 1.5rem;padding:.7rem clamp(1rem,4vw,3rem)}
+.logo{background:none;border:0;color:var(--fucsia);font-size:2rem;font-weight:800;display:flex;align-items:center;gap:.4rem}
+.logo i{width:1.1rem;height:1.1rem;border:4px solid var(--naranja);border-radius:50%;display:inline-block;transition:transform .4s}
+.logo:hover i{transform:rotate(180deg) scale(1.2)}
+nav{display:flex;gap:.3rem;background:#fff;padding:.3rem;border-radius:99px;box-shadow:var(--sombra)}
+nav button{border:0;background:none;color:var(--tinta);font-weight:700;padding:.5rem 1.1rem;border-radius:99px;transition:background .2s,color .2s}
+nav button:hover{background:#f3ecfb}
+nav button[aria-current=page]{background:var(--fucsia);color:#fff}
+main{flex:1;width:min(1100px,100%);margin:0 auto;padding:1.5rem clamp(1rem,4vw,2rem) 3rem}
+.tab{display:none}.tab.on{display:block;animation:in .35s ease}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+h2{font-size:clamp(2rem,5vw,3rem);color:var(--fucsia);margin-bottom:.4rem}
+h3.sec{font-size:1.5rem;margin:1.5rem 0 .6rem}
+.sub{max-width:55ch;margin-bottom:1.5rem}
+.globos{display:grid;grid-template-columns:1.3fr 1fr;grid-template-rows:1fr 1fr;gap:1.2rem;min-height:520px}
+.globo{border:0;border-radius:40px;padding:2rem;text-align:left;color:#fff;position:relative;overflow:hidden;box-shadow:var(--sombra);transition:transform .25s,box-shadow .25s;display:flex;flex-direction:column;justify-content:flex-end}
+.globo h3{font-size:clamp(1.8rem,4vw,2.8rem)}
+.globo p{max-width:26ch;font-weight:600}
+.globo::before{content:"";position:absolute;width:220px;height:220px;border-radius:50%;border:34px solid rgba(255,255,255,.25);top:-50px;right:-40px;transition:transform .5s}
+button.globo:hover{transform:translateY(-5px) rotate(-.6deg);box-shadow:0 14px 28px rgba(90,40,120,.22)}
+button.globo:hover::before{transform:scale(1.2) rotate(30deg)}
+.g1{background:var(--fucsia);grid-column:1;grid-row:1}
+.g2{background:var(--agua);cursor:default;color:var(--tinta);grid-column:1;grid-row:2}
+.g3{background:var(--naranja);grid-row:1/3;grid-column:2}
+.filtros{display:flex;flex-wrap:wrap;gap:1rem;margin-bottom:1.5rem}
+.filtros div{min-width:170px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1.3rem}
+.prod{background:var(--card);border-radius:var(--r);overflow:hidden;box-shadow:var(--sombra);display:flex;flex-direction:column;transition:transform .25s}
+.prod:hover{transform:translateY(-4px)}
+.foto{aspect-ratio:1;display:grid;place-items:center;background:var(--c)}
+.foto img{width:100%;height:100%;object-fit:cover}
+.aro{width:46%;aspect-ratio:1;border-radius:50%;border:16px solid #fff;box-shadow:0 0 0 4px rgba(255,255,255,.4),inset 0 0 0 4px rgba(0,0,0,.08)}
+.info{padding:1rem 1.2rem 1.3rem;display:flex;flex-direction:column;gap:.6rem}
+.info h3{font-size:1.4rem}
+.tag{font-size:.8rem;font-weight:700;color:var(--fucsia-d)}
+.precio{font-weight:700;color:var(--fucsia-d);font-size:1.15rem}
+label{font-size:.9rem;font-weight:700;display:block}
+select,input[type=text],input[type=number],input[type=password]{width:100%;padding:.55rem .8rem;border-radius:14px;border:2px solid #e2d3f3;font:inherit;background:#fff;color:var(--tinta)}
+.wa{display:block;text-align:center;text-decoration:none;background:var(--fucsia);color:#fff;font-weight:700;padding:.75rem;border-radius:99px;transition:background .2s,transform .2s}
+.wa:hover{background:var(--fucsia-d);transform:scale(1.03)}
+.destacados{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:1.2rem}
+.dest{border-radius:var(--r);padding:2rem 1.5rem;color:#fff;box-shadow:var(--sombra);transition:transform .25s}
+.dest:hover{transform:scale(1.03)}
+.dest h3{font-size:1.8rem;margin:.3rem 0}
+.dest span{font-size:2.2rem}
+.pasos{list-style:none;padding:0;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1rem;margin-bottom:2rem;counter-reset:p}
+.pasos li{background:#fff;border-radius:var(--r);padding:1.2rem;box-shadow:var(--sombra);counter-increment:p}
+.pasos li::before{content:counter(p);display:grid;place-items:center;width:2.2rem;height:2.2rem;border-radius:50%;background:var(--agua);color:#fff;font:800 1.2rem 'Baloo 2';margin-bottom:.5rem}
+.calc,.panel{background:#fff;border-radius:var(--r);padding:1.5rem;box-shadow:var(--sombra);margin-bottom:1.5rem;display:flex;flex-wrap:wrap;gap:1rem;align-items:end}
+.calc input{width:9rem}
+.btn{background:var(--naranja);color:#fff;border:0;font-weight:700;padding:.7rem 1.4rem;border-radius:99px;transition:transform .2s}
+.btn:hover{transform:scale(1.05)}
+.btn.s{padding:.3rem .9rem;font-size:.85rem}.btn.g{background:var(--agua);color:var(--tinta)}.btn.r{background:var(--fucsia)}
+#res{font:700 1.4rem 'Baloo 2';color:var(--fucsia);flex-basis:100%}
+.tabla{overflow-x:auto;background:#fff;border-radius:var(--r);box-shadow:var(--sombra)}
+table{border-collapse:collapse;width:100%;min-width:460px;text-align:center}
+th{background:var(--fucsia);color:#fff;padding:.7rem;font-family:'Baloo 2'}
+td{padding:.6rem;border-top:1px solid #efe5f9}
+tr.hit td{background:#ffe3f3;font-weight:700}tr.baja td{opacity:.5}
+.nota{font-size:.9rem;margin-top:.7rem}
+.form{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.8rem;width:100%}
+.chk{display:flex;gap:.6rem;flex-wrap:wrap}.chk label{display:flex;gap:.25rem;font-weight:600}
+.resumen{display:flex;flex-wrap:wrap;gap:1rem;width:100%}
+.resumen b{background:var(--bg);padding:.6rem 1rem;border-radius:16px}
+footer{background:var(--tinta);color:#fff;padding:2rem clamp(1rem,4vw,3rem);display:flex;flex-wrap:wrap;gap:1rem 3rem;justify-content:space-between;align-items:center}
+footer .logo{color:var(--naranja);font-size:1.6rem;cursor:default}
+footer a{color:var(--agua);font-weight:700}
+.adm{background:none;border:0;color:#8f7aa0;font-size:.8rem;text-decoration:underline}
+@media(max-width:700px){.globos{grid-template-columns:1fr;grid-template-rows:auto;min-height:0}.globo{min-height:190px}.g1,.g2,.g3{grid-column:1;grid-row:auto}.g3{min-height:260px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <button class="logo" data-go="inicio" aria-label="Ir al inicio"><i></i>Polentuki</button>
+  <nav aria-label="Principal">
+    <button data-go="inicio">Inicio</button><button data-go="anillos">Anillos</button><button data-go="nosotros">Nosotros</button><button data-go="talles">Talles</button>
+  </nav>
+</header>
+<main>
+  <section id="inicio" class="tab">
+    <div class="globos">
+      <button class="globo g1" data-go="anillos"><h3>Anillos</h3><p>Elegí tu modelo y pedilo por WhatsApp.</p></button>
+      <div class="globo g2"><h3>Novedades</h3><p>Muy pronto: lo nuevo de la temporada.</p></div>
+      <button class="globo g3" data-go="talles"><h3>Cómo sacar mis medidas</h3><p>Con un hilo y una regla en 4 pasos.</p></button>
+    </div>
+  </section>
+
+  <section id="anillos" class="tab">
+    <h2>Anillos</h2>
+    <p class="sub">Elegí el talle y te abrimos el chat con el pedido ya escrito.</p>
+    <div class="filtros">
+      <div><label for="fT">Talle</label><select id="fT"></select></div>
+      <div><label for="fS">Tipo / estilo</label><select id="fS"></select></div>
+    </div>
+    <div class="grid" id="catalogo"></div>
+  </section>
+
+  <section id="nosotros" class="tab">
+    <h2>Nosotros</h2>
+    <p class="sub">Polentuki es una marca joven de anillos, hecha para que encuentres el tuyo.</p>
+    <div class="destacados">
+      <div class="dest" style="background:var(--fucsia)"><span>✨</span><h3>Modelos únicos</h3><p>Pocas unidades de cada diseño.</p></div>
+      <div class="dest" style="background:var(--naranja)"><span>📏</span><h3>Talle exacto</h3><p>Te ayudamos a medir tu dedo.</p></div>
+      <div class="dest" style="background:var(--agua);color:var(--tinta)"><span>💬</span><h3>Atención directa</h3><p>Hablás con nosotros, sin vueltas.</p></div>
+    </div>
+  </section>
+
+  <section id="talles" class="tab">
+    <h2>Guía de talles</h2>
+    <p class="sub">Medí tu dedo en casa y averiguá tu talle. El talle es el diámetro interno del anillo en milímetros.</p>
+    <ol class="pasos">
+      <li><b>Cortá una tira</b> de papel de 10 cm × 0,5 cm, o usá un hilo.</li>
+      <li><b>Rodeá el dedo</b> donde va el anillo, sin apretar.</li>
+      <li><b>Marcá</b> el punto donde se juntan los extremos.</li>
+      <li><b>Medí con regla</b> hasta la marca, en milímetros.</li>
+    </ol>
+    <div class="calc">
+      <div><label for="mm">Circunferencia de tu dedo (mm)</label><input id="mm" type="number" min="45" max="75" step="0.5" placeholder="Ej: 58"></div>
+      <button class="btn" id="calc">Calcular talle</button>
+      <p id="res" aria-live="polite"></p>
+    </div>
+    <div class="tabla"><table>
+      <thead><tr><th>Talle</th><th>Diámetro interno (mm)</th><th>Circunferencia (mm)</th><th>Diámetro (pulg.)</th></tr></thead>
+      <tbody id="tbody"></tbody>
+    </table></div>
+    <p class="nota">Si estás entre dos talles, elegí el más grande.</p>
+  </section>
+
+  <section id="admin" class="tab">
+    <h2>Admin</h2>
+    <div class="panel" id="login">
+      <div><label for="clave">Clave</label><input id="clave" type="password" autocomplete="off"></div>
+      <button class="btn" id="entrar">Entrar</button><p id="err"></p>
+    </div>
+    <div id="panel" hidden>
+      <h3 class="sec">Inventario</h3>
+      <div class="panel"><div style="flex:1;min-width:220px"><label for="q">Buscar por nombre o código</label><input id="q" type="text"></div></div>
+      <div class="tabla"><table>
+        <thead><tr><th>Código</th><th>Modelo</th><th>Tipo</th><th>Precio</th><th>Talles</th><th>Estado</th></tr></thead>
+        <tbody id="inv"></tbody>
+      </table></div>
+      <h3 class="sec">Agregar anillo (simulado)</h3>
+      <div class="panel"><div class="form">
+        <div><label for="aN">Nombre</label><input id="aN" type="text"></div>
+        <div><label for="aP">Precio</label><input id="aP" type="number" min="0"></div>
+        <div><label for="aT">Tipo</label><select id="aT"></select></div>
+        <div><label for="aI">Imagen</label><input id="aI" type="text" placeholder="img/foto.jpg"></div>
+      </div>
+      <div><label>Talles disponibles</label><div class="chk" id="aS"></div></div>
+      <button class="btn" id="agregar">Agregar</button></div>
+      <h3 class="sec">Métricas de consultas</h3>
+      <div class="panel"><div class="resumen" id="resumen"></div>
+        <div class="tabla" style="width:100%"><table><thead><tr><th>Modelo</th><th>Consultas</th></tr></thead><tbody id="met"></tbody></table></div>
+        <button class="btn s r" id="reset">Borrar métricas</button></div>
+    </div>
+  </section>
+</main>
+<footer>
+  <span class="logo">Polentuki</span>
+  <div>WhatsApp: <a href="https://wa.me/5492352550999">+54 9 2352 55-0999</a></div>
+  <div>Instagram: <a href="https://instagram.com/agustin_polent">@agustin_polent</a></div>
+  <button class="adm" data-go="admin">Admin</button>
+</footer>
+<script>
+const WA='5492352550999',CLAVE='1234';
+const TIPOS={negros:'Negros',metalicos:'Metálicos',disenos:'Con Diseños'};
+const TALLES=[17,18,19,20,21];
+// Modelos de ejemplo. Para usar tus fotos: img:'img/foto.jpg'
+const base=[
+ {cod:'PK-001',n:'Luna',p:4500,tipo:'metalicos',talles:[17,18,19,20],c:'#f7b6dc',img:'',on:1},
+ {cod:'PK-002',n:'Sol',p:4800,tipo:'metalicos',talles:[18,19,20,21],c:'#ffc89b',img:'',on:1},
+ {cod:'PK-003',n:'Eclipse',p:4200,tipo:'negros',talles:[17,19,21],c:'#a9ece0',img:'',on:1},
+ {cod:'PK-004',n:'Nube',p:5000,tipo:'disenos',talles:[17,18,19,20,21],c:'#d9c2f5',img:'',on:1},
+ {cod:'PK-005',n:'Chispa',p:5200,tipo:'disenos',talles:[18,20],c:'#ffd97a',img:'',on:1},
+ {cod:'PK-006',n:'Noche',p:4600,tipo:'negros',talles:[17,18,19,20],c:'#f19ac9',img:'',on:1}];
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const load=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))||d}catch(e){return d}};
+const save=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+let inv=load('pk_inv',base),ev=load('pk_ev',[]),auth=false;
+const opts=(a,todos)=>`<option value="all">Todos</option>`+a.map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('');
+$('#fT').innerHTML=opts(TALLES.map(t=>[t,t]));
+$('#fS').innerHTML=opts(Object.entries(TIPOS));
+$('#aT').innerHTML=Object.entries(TIPOS).map(x=>`<option value="${x[0]}">${x[1]}</option>`).join('');
+$('#aS').innerHTML=TALLES.map(t=>`<label><input type="checkbox" value="${t}">${t}</label>`).join('');
+
+function ir(id){
+  document.querySelectorAll('.tab').forEach(t=>t.classList.toggle('on',t.id===id));
+  document.querySelectorAll('nav button').forEach(b=>{b.dataset.go===id?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});
+  if(id==='admin')adm();
+  scrollTo({top:0});
+}
+document.addEventListener('click',e=>{const b=e.target.closest('[data-go]');if(b)ir(b.dataset.go)});
+
+/* Catálogo */
+function cat(){
+  const ft=$('#fT').value,fs=$('#fS').value;
+  const l=inv.map((m,i)=>[m,i]).filter(([m])=>m.on&&(ft==='all'||m.talles.includes(+ft))&&(fs==='all'||m.tipo===fs));
+  $('#catalogo').innerHTML=l.length?l.map(([m,i])=>`
+   <article class="prod" data-i="${i}">
+    <div class="foto" style="--c:${m.c||'#f7b6dc'}">${m.img?`<img src="${esc(m.img)}" alt="Anillo ${esc(m.n)}" onerror="this.parentNode.innerHTML='<div class=aro></div>'">`:'<div class="aro"></div>'}</div>
+    <div class="info"><span class="tag">${TIPOS[m.tipo]||''}</span><h3>${esc(m.n)}</h3><span class="precio">$${Number(m.p).toLocaleString('es-AR')}</span>
+     <label for="t${i}">Talle</label>
+     <select id="t${i}">${m.talles.map(t=>`<option ${t==ft?'selected':''}>${t}</option>`).join('')}</select>
+     <a class="wa" href="https://wa.me/${WA}" target="_blank" rel="noopener">Pedir por WhatsApp</a></div>
+   </article>`).join(''):'<p>No hay anillos con ese filtro. Probá con otro talle o estilo.</p>';
+}
+$('#fT').onchange=$('#fS').onchange=cat;
+$('#catalogo').addEventListener('click',e=>{
+  const a=e.target.closest('.wa');if(!a)return;
+  const i=a.closest('.prod').dataset.i,m=inv[i],t=+$('#t'+i).value;
+  a.href=`https://wa.me/${WA}?text=`+encodeURIComponent(`¡Hola! Quiero consultar/comprar el anillo ${m.n} en talle ${t}`);
+  ev.push({m:m.n,t,tipo:m.tipo,ts:Date.now()});save('pk_ev',ev);
+});
+
+/* Talles */
+$('#tbody').innerHTML=TALLES.map(t=>`<tr data-t="${t}"><td>${t}</td><td>${t}</td><td>${(t*Math.PI).toFixed(1)}</td><td>${(t/25.4).toFixed(2)}</td></tr>`).join('');
+$('#calc').onclick=()=>{
+  const v=parseFloat($('#mm').value),r=$('#res');
+  document.querySelectorAll('tr.hit').forEach(x=>x.classList.remove('hit'));
+  if(!v||v<45||v>75){r.textContent='Ingresá un valor entre 45 y 75 mm.';return}
+  const d=v/Math.PI,t=Math.round(d);
+  if(t<17||t>21){r.textContent=`Tu diámetro es de ${d.toFixed(1)} mm, fuera de nuestros talles (17 a 21). Consultanos.`;return}
+  r.textContent=`Diámetro interno: ${d.toFixed(1)} mm → talle ${t}`;
+  $(`tr[data-t="${t}"]`).classList.add('hit');
+};
+
+/* Admin */
+function adm(){
+  $('#login').hidden=auth;$('#panel').hidden=!auth;
+  if(!auth)return;
+  const q=$('#q').value.toLowerCase();
+  $('#inv').innerHTML=inv.map((m,i)=>[m,i]).filter(([m])=>(m.n+m.cod).toLowerCase().includes(q)).map(([m,i])=>`
+   <tr class="${m.on?'':'baja'}"><td>${esc(m.cod)}</td><td>${esc(m.n)}</td><td>${TIPOS[m.tipo]}</td><td>$${Number(m.p).toLocaleString('es-AR')}</td><td>${m.talles.join(', ')}</td>
+   <td><button class="btn s ${m.on?'r':'g'}" data-b="${i}">${m.on?'Dar de baja':'Reactivar'}</button></td></tr>`).join('');
+  const cnt=(k)=>ev.reduce((o,e)=>(o[e[k]]=(o[e[k]]||0)+1,o),{});
+  const top=o=>Object.entries(o).sort((a,b)=>b[1]-a[1])[0];
+  const pm=cnt('m'),pt=top(cnt('t')),pk=top(cnt('tipo'));
+  $('#resumen').innerHTML=`<b>Consultas totales: ${ev.length}</b><b>Talle más consultado: ${pt?pt[0]+' ('+pt[1]+')':'—'}</b><b>Tipo con más interés: ${pk?TIPOS[pk[0]]||pk[0]:'—'}</b>`;
+  $('#met').innerHTML=Object.entries(pm).sort((a,b)=>b[1]-a[1]).map(([n,c])=>`<tr><td>${esc(n)}</td><td>${c}</td></tr>`).join('')||'<tr><td colspan="2">Todavía no hay consultas.</td></tr>';
+}
+$('#entrar').onclick=()=>{if($('#clave').value===CLAVE){auth=true;$('#clave').value='';$('#err').textContent='';adm()}else $('#err').textContent='Clave incorrecta.'};
+$('#q').oninput=adm;
+$('#inv').onclick=e=>{const b=e.target.closest('[data-b]');if(!b)return;const m=inv[b.dataset.b];m.on=m.on?0:1;save('pk_inv',inv);adm();cat()};
+$('#agregar').onclick=()=>{
+  const n=$('#aN').value.trim(),p=+$('#aP').value,ts=[...document.querySelectorAll('#aS input:checked')].map(x=>+x.value);
+  if(!n||!p||!ts.length){alert('Completá nombre, precio y al menos un talle.');return}
+  inv.push({cod:'PK-'+String(inv.length+1).padStart(3,'0'),n,p,tipo:$('#aT').value,talles:ts,c:'#f7b6dc',img:$('#aI').value.trim(),on:1});
+  save('pk_inv',inv);['#aN','#aP','#aI'].forEach(s=>$(s).value='');document.querySelectorAll('#aS input').forEach(x=>x.checked=false);adm();cat();
+};
+$('#reset').onclick=()=>{if(confirm('¿Borrar todas las métricas?')){ev=[];save('pk_ev',ev);adm()}};
+cat();ir('inicio');
+</script>
+</body>
+</html>
