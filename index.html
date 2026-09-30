@@ -83,6 +83,18 @@ footer{background:var(--tinta);color:#fff;padding:2rem clamp(1rem,4vw,3rem);disp
 footer .logo{color:var(--naranja);font-size:1.6rem;cursor:default}
 footer a{color:var(--agua);font-weight:700}
 .adm{background:none;border:0;color:#8f7aa0;font-size:.8rem;text-decoration:underline}
+.talles-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);grid-template-areas:"pasos img" "calc img" "tabla img";column-gap:1.5rem;align-items:start}
+.t-pasos{grid-area:pasos;background:#fff;border-radius:var(--r);padding:1.5rem;box-shadow:var(--sombra);margin-bottom:1.5rem}
+.t-pasos h3{font-size:1.6rem;margin-bottom:.8rem}
+.t-pasos .pasos{grid-template-columns:1fr;margin-bottom:0}
+.t-pasos .pasos li{background:var(--bg);box-shadow:none;display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem}
+.t-pasos .pasos li::before{flex:none;margin:0}
+.talles-grid .calc{grid-area:calc}
+.t-tabla{grid-area:tabla}
+.t-img{grid-area:img;align-self:stretch}
+.t-img-in{position:sticky;top:90px;background:#fff;border-radius:var(--r);padding:.8rem;box-shadow:var(--sombra)}
+.t-img img{display:block;width:100%;height:auto;max-height:calc(100vh - 110px - 1.6rem);object-fit:contain;border-radius:calc(var(--r) - 10px)}
+@media(max-width:800px){.talles-grid{grid-template-columns:1fr;grid-template-areas:"pasos" "img" "calc" "tabla"}.t-img{margin-bottom:1.5rem}.t-img-in{position:static}.t-img img{max-height:none}}
 @media(max-width:700px){.globos{grid-template-columns:1fr;grid-template-rows:auto;min-height:0}.globo{min-height:190px}.g1,.g2,.g3{grid-column:1;grid-row:auto}.g3{min-height:260px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -126,22 +138,30 @@ footer a{color:var(--agua);font-weight:700}
   <section id="talles" class="tab">
     <h2>Guía de talles</h2>
     <p class="sub">Medí tu dedo en casa y averiguá tu talle. El talle es el diámetro interno del anillo en milímetros.</p>
-    <ol class="pasos">
-      <li><b>Cortá una tira</b> de papel de 10 cm × 0,5 cm, o usá un hilo.</li>
-      <li><b>Rodeá el dedo</b> donde va el anillo, sin apretar.</li>
-      <li><b>Marcá</b> el punto donde se juntan los extremos.</li>
-      <li><b>Medí con regla</b> hasta la marca, en milímetros.</li>
-    </ol>
-    <div class="calc">
-      <div><label for="mm">Circunferencia de tu dedo (mm)</label><input id="mm" type="number" min="45" max="75" step="0.5" placeholder="Ej: 58"></div>
-      <button class="btn" id="calc">Calcular talle</button>
-      <p id="res" aria-live="polite"></p>
+    <div class="talles-grid">
+      <div class="t-pasos">
+        <h3>Cómo medir tu dedo</h3>
+        <ol class="pasos">
+          <li><b>Cortá una tira</b> de papel de 10 cm × 0,5 cm, o usá un hilo.</li>
+          <li><b>Rodeá el dedo</b> donde va el anillo, sin apretar.</li>
+          <li><b>Marcá</b> el punto donde se juntan los extremos.</li>
+          <li><b>Medí con regla</b> hasta la marca, en milímetros.</li>
+        </ol>
+      </div>
+      <aside class="t-img"><div class="t-img-in"><img src="img/medir.jpg" alt="Cómo medir el dedo con un hilo o una tira de papel" loading="lazy"></div></aside>
+      <div class="calc">
+        <div><label for="mm">Circunferencia de tu dedo (mm)</label><input id="mm" type="number" min="45" max="75" step="0.5" placeholder="Ej: 58"></div>
+        <button class="btn" id="calc">Calcular talle</button>
+        <p id="res" aria-live="polite"></p>
+      </div>
+      <div class="t-tabla">
+        <div class="tabla"><table>
+          <thead><tr><th>Talle</th><th>Diámetro interno (mm)</th><th>Circunferencia (mm)</th><th>Diámetro (pulg.)</th></tr></thead>
+          <tbody id="tbody"></tbody>
+        </table></div>
+        <p class="nota">Si estás entre dos talles, elegí el más grande.</p>
+      </div>
     </div>
-    <div class="tabla"><table>
-      <thead><tr><th>Talle</th><th>Diámetro interno (mm)</th><th>Circunferencia (mm)</th><th>Diámetro (pulg.)</th></tr></thead>
-      <tbody id="tbody"></tbody>
-    </table></div>
-    <p class="nota">Si estás entre dos talles, elegí el más grande.</p>
   </section>
 
   <section id="admin" class="tab">
